@@ -1,8 +1,9 @@
 package com.studysmartjavafx;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
 
 public class CLIbase {
-    
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         LoginRegister loginRegister = new LoginRegister();
@@ -14,7 +15,6 @@ public class CLIbase {
         ExtendedFriendManager friendManagerS = new ExtendedFriendManager();
         EventManager createEvent = new EventManager();
 
-        
         System.out.println("Welcome to StudySmart(STEM)! Please choose an option: ");
         System.out.println("1. Register");
         System.out.println("2. Login");
@@ -31,8 +31,6 @@ public class CLIbase {
                 // Display role-specific information
                 switch (loggedInUser.getRole().toLowerCase()) {
                     case "educator":
-                        //System.out.println("Number of Quizzes Created: " + eventManager.getNumQuizzesCreated(loggedInUser));
-                        //System.out.println("Number of Events Created: " + eventManager.getNumEventsCreated(loggedInUser));
                         quizManager.DisplayCreatedQuizNo();
                         eventManager.DisplayCreatedEventNo();
                         break;
@@ -41,7 +39,6 @@ public class CLIbase {
                         bookingManager.displayPastBookings(loggedInUser);
                         break;
                     case "young student":
-                       // System.out.println("Points: " + eventManager.getPoints(loggedInUser));
                         System.out.println("Friends: " + friendManager.getFriends(loggedInUser));
                         break;
                     default:
@@ -60,22 +57,21 @@ public class CLIbase {
 
                     switch (loggedInUser.getRole().toLowerCase()) {
                         case "educator":
-                            System.out.println("5. Create Event"); 
-                            System.out.println("6. Create Quiz"); 
+                            System.out.println("5. Create Event");
+                            System.out.println("6. Create Quiz");
                             break;
                         case "parent":
-                            System.out.println("5. Make Booking"); 
+                            System.out.println("5. Make Booking");
                             break;
                         case "young student":
-                            System.out.println("5. Attempt Quiz"); 
-                            System.out.println("6. Request and Manage Friends"); 
+                            System.out.println("5. Attempt Quiz");
+                            System.out.println("6. Request and Manage Friends");
                             System.out.println("7. View Global Leaderboard");
                             System.out.println("8. Register for Events");
                             break;
                     }
 
                     System.out.println("0. Logout");
-                    //System.out.println("99. Back to Previous Menu");
                     int option = scanner.nextInt();
                     scanner.nextLine(); // Consume newline
 
@@ -108,14 +104,11 @@ public class CLIbase {
                                     if(response==1){
                                         System.out.println();
                                         eventManager.userCreateEvent();
-                                    }
-                                    else{
+                                    } else {
                                         break;
                                     }
                                 }
-                                
                                 eventManager.DisplayCreatedEventNo();
-                                //eventdatabase
                             } else if (loggedInUser.getRole().equalsIgnoreCase("parent")) {
                                 bookingManager.displayDestinations(loggedInUser);
                                 System.out.println("Enter a time slot number:");
@@ -128,31 +121,27 @@ public class CLIbase {
                             } else if (loggedInUser.getRole().equalsIgnoreCase("young student")) {
                                 AnswerQuiz answerquiz = new AnswerQuiz();
                                 System.out.println("Number of Question Attempted: "+answerquiz.quizQuestions.size());
-                                
                             }
                             break;
                         case 6:
                             if (loggedInUser.getRole().equalsIgnoreCase("educator")) {
-                                //Accept users' input
-                                       while(true){
+                                while(true){
                                     System.out.print("\nCreate a Quiz? Yes[1]/No[0]: ");
                                     int response = scanner.nextInt();
                                     if(response==1){
                                         System.out.println();
                                         quizManager.userCreateQuiz();
-                                    }
-                                    else{
+                                    } else {
                                         break;
                                     }
                                 }
-                                       quizManager.DisplayCreatedQuizNo();
+                                quizManager.DisplayCreatedQuizNo();
                             } else if (loggedInUser.getRole().equalsIgnoreCase("young student")) {
                                 System.out.println("1. Send Friend Request");
                                 System.out.println("2. Accept Friend Request");
                                 System.out.println("3. Reject Friend Request");
                                 System.out.println("4. View All Friends");
                                 System.out.println("5. View Friend Requests");
-                                
 
                                 int friendOption = scanner.nextInt();
                                 scanner.nextLine(); // Consume newline
@@ -178,11 +167,10 @@ public class CLIbase {
                                         System.out.println("Your Friends:");
                                         for (String friend : friends) {
                                             System.out.println("- " + friend);
-                                            friendManagerS.visualizeFriendshipGraph(); //can show them thier freiendship graph
+                                            friendManagerS.visualizeFriendshipGraph(); //can show them their friendship graph
                                         }
                                         break;
-                                            case 5:
-                                        // Implement viewing friend requests
+                                    case 5:
                                         List<String> friendRequests = friendManager.getFriendRequests(loggedInUser);
                                         if (friendRequests.isEmpty()) {
                                             System.out.println("You have no pending friend requests.");
@@ -196,21 +184,22 @@ public class CLIbase {
                                     default:
                                         System.out.println("Invalid option.");
                                         break;
-                                        
-                                    case 8: //Student Register Event
-                                        // bookingManager.studentRegisterEvent(event);
-                                        //have to link to csv//sql
                                 }
                             }
                             break;
-                            
+                        case 7:
+                            if (loggedInUser.getRole().equalsIgnoreCase("young student")) {
+                                // Implement viewing global leaderboard
+                            }
+                            break;
+                        case 8:
+                            if (loggedInUser.getRole().equalsIgnoreCase("young student")) {
+                                // Implement registering for events
+                            }
+                            break;
                         case 0:
                             exit = true;
                             break;
-                            //not sure can go back or not
-                         /*case 99:
-                            System.out.println("Going back to previous menu...");
-                            break;   */
                         default:
                             System.out.println("Invalid choice. Please try again.");
                             break;
@@ -220,7 +209,5 @@ public class CLIbase {
         } else {
             System.out.println("Invalid choice. Exiting.");
         }
-
- 
     }
 }

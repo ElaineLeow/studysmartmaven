@@ -8,13 +8,24 @@ package com.studysmartjavafx;
  *
  * @author User
  */
-import java.io.*;
-import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FriendManager {
     private static final String FRIENDS_FILE_PATH = "friends.csv";
 
-     // Creates the friends.csv file if it doesn't exist
+    public FriendManager() {
+        createFriendsFile();
+    }
+
+    // Creates the friends.csv file if it doesn't exist
     private void createFriendsFile() {
         try {
             File file = new File(FRIENDS_FILE_PATH);
@@ -26,6 +37,7 @@ public class FriendManager {
             System.err.println("Error creating friends.csv file: " + e.getMessage());
         }
     }
+
     // Sends a friend request from sender to receiver
     public void sendFriendRequest(User sender, String receiverUsername) {
         try {
